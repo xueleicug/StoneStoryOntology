@@ -1,5 +1,7 @@
 package ontology;
 
+import com.util.PropertiesUtil;
+
 /**
  *
  * @author xuelei xueleicug@163.com
@@ -8,12 +10,12 @@ package ontology;
 public class TestMain {
 	
 	public static void main(String[] args) {
-//		String dirPath = "E:\\Semantic";
 		
-		String dirPath = "/home/xuelei";
+        PropertiesUtil pu = new PropertiesUtil("config");
+        String dirPath = pu.getValueofKey("dataPath");
 		StoneStoryRelation ssr = StoneStoryRelation.getInstance(dirPath);
+        ssr.buildStoneStoryOntology(dirPath);
 		ssr.executeInfRules(dirPath);
 		ssr.persistInfModel(dirPath);
-//		ssr.test();
 	}
 }

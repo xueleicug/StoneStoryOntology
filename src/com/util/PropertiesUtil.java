@@ -16,8 +16,7 @@ public class PropertiesUtil {
 	private Properties prop = null;
 	private String propertiesFileName = null;
 	
-	
-	/**
+    /**
 	 * @param name 配置文件路径
 	 */
 	public PropertiesUtil(String name) {
@@ -91,6 +90,4 @@ public class PropertiesUtil {
 			FileUtil.closeWriter(writer);;
 		}
 	}
-	
-	
 }

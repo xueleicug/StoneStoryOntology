@@ -23,7 +23,6 @@ import org.apache.jena.reasoner.Reasoner;
 import org.apache.jena.reasoner.rulesys.GenericRuleReasoner;
 import org.apache.jena.reasoner.rulesys.OWLFBRuleReasonerFactory;
 import org.apache.jena.reasoner.rulesys.Rule;
-import org.apache.jena.util.FileManager;
 import org.apache.log4j.Logger;
 
 /**
@@ -38,8 +37,8 @@ public class StoneStoryRelation {
 	private InfModel infModel = null;
 	
 	private String StoneStoryNS = "http://www.semanticweb.org/StoneStory#";
-	//
-	private static StoneStoryRelation instance = null;
+	
+    private static StoneStoryRelation instance = null;
 	
 	private SSS sss = null;
 	
@@ -50,7 +49,6 @@ public class StoneStoryRelation {
 		this.ontModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM_TRANS_INF);
 		this.ontModel.setNsPrefix("stoneStory", StoneStoryNS);
 		sss = new SSS(this.ontModel);
-		this.buildStoneStoryOntology(dirPath);
 	}
 	
 	public static StoneStoryRelation getInstance(String dirPath) {
@@ -73,7 +71,7 @@ public class StoneStoryRelation {
 	}
 	
 	public void buildOntCls(String dirPath) {
-		InputStream in = FileUtil.getInputStreamByFile(PathUtil.getPath(dirPath + "/hlmTest/hlm_cls.txt"));
+		InputStream in = FileUtil.getInputStreamByFile(PathUtil.getPath(dirPath + "/hlm_cls.txt"));
 		BufferedReader br = FileUtil.getBufferedReader(in);
 		String line = null;
 		try {
@@ -89,7 +87,7 @@ public class StoneStoryRelation {
 	}
 	
 	public void buildOntClsHer(String dirPath) {
-		InputStream in = FileUtil.getInputStreamByFile(PathUtil.getPath(dirPath + "/hlmTest/hlm_cls_her.txt"));
+		InputStream in = FileUtil.getInputStreamByFile(PathUtil.getPath(dirPath + "/hlm_cls_her.txt"));
 		BufferedReader br = FileUtil.getBufferedReader(in);
 		String line = null;
 		try {
@@ -112,7 +110,7 @@ public class StoneStoryRelation {
 	}
 
 	public void buildOntClsRelation(String dirPath) {
-		InputStream in = FileUtil.getInputStreamByFile(PathUtil.getPath(dirPath + "/hlmTest/hlm_cls_relation.txt"));
+		InputStream in = FileUtil.getInputStreamByFile(PathUtil.getPath(dirPath + "/hlm_cls_relation.txt"));
 		BufferedReader br = FileUtil.getBufferedReader(in);
 		String line = null;
 		try {
@@ -135,7 +133,7 @@ public class StoneStoryRelation {
 	}
 	
 	public void buildOntIns(String dirPath) {
-		InputStream in = FileUtil.getInputStreamByFile(PathUtil.getPath(dirPath + "/hlmTest/hlm_cls_ins.txt"));
+		InputStream in = FileUtil.getInputStreamByFile(PathUtil.getPath(dirPath + "/hlm_cls_ins.txt"));
 		BufferedReader br = FileUtil.getBufferedReader(in);
 		String line = null;
 		try {
@@ -156,7 +154,7 @@ public class StoneStoryRelation {
 	}
 
 	public void buildOntClsDp(String dirPath) {
-		InputStream in = FileUtil.getInputStreamByFile(PathUtil.getPath(dirPath + "/hlmTest/hlm_cls_dp.txt"));
+		InputStream in = FileUtil.getInputStreamByFile(PathUtil.getPath(dirPath + "/hlm_cls_dp.txt"));
 		BufferedReader br = FileUtil.getBufferedReader(in);
 		String line = null;
 		try {
@@ -180,7 +178,7 @@ public class StoneStoryRelation {
 	}
 	
 	public void buildOntInsOp(String dirPath) {
-		InputStream in = FileUtil.getInputStreamByFile(PathUtil.getPath(dirPath + "/hlmTest/hlm_ins_op.txt"));
+		InputStream in = FileUtil.getInputStreamByFile(PathUtil.getPath(dirPath + "/hlm_ins_op.txt"));
 		BufferedReader br = FileUtil.getBufferedReader(in);
 		String line = null;
 		try {
@@ -203,7 +201,7 @@ public class StoneStoryRelation {
 	}
 	
 	public void buildOntInsDp(String dirPath) {
-		InputStream in = FileUtil.getInputStreamByFile(PathUtil.getPath(dirPath + "/hlmTest/hlm_ins_dp.txt"));
+		InputStream in = FileUtil.getInputStreamByFile(PathUtil.getPath(dirPath + "/hlm_ins_dp.txt"));
 		BufferedReader br = FileUtil.getBufferedReader(in);
 		String line = null;
 		try {
@@ -227,7 +225,7 @@ public class StoneStoryRelation {
 	}
 	
 	public void executeInfRules(String dirPath) {
-		InputStream in = FileUtil.getInputStreamByFile(PathUtil.getPath(dirPath + "/hlmTest/rules"));
+		InputStream in = FileUtil.getInputStreamByFile(PathUtil.getPath(dirPath + "/rules"));
 		BufferedReader br = FileUtil.getBufferedReader(in);
 		List<Rule> rules = Rule.parseRules(Rule.rulesParserFromReader(br));
 		Reasoner reasoner = new GenericRuleReasoner(rules, OWLFBRuleReasonerFactory.theInstance());
@@ -253,7 +251,7 @@ public class StoneStoryRelation {
 		Model m = ModelFactory.createOntologyModel();
 		m.add(infModel);
 		OutputStream out = null;
-		out = FileUtil.getOutputStream(PathUtil.getPath(dirPath + "/hlmTest/hlmInfModel.owl"));
+		out = FileUtil.getOutputStream(PathUtil.getPath(dirPath + "/hlmInfModel.owl"));
 		m.write(out);
 		FileUtil.closeOutputStream(out);
 	}
@@ -264,37 +262,8 @@ public class StoneStoryRelation {
 	
 	public void persistOntModel(String dirPath) {
 		OutputStream out = null;
-		out = FileUtil.getOutputStream(PathUtil.getPath(dirPath + "/hlmTest/hlmOntModel.owl"));
+		out = FileUtil.getOutputStream(PathUtil.getPath(dirPath + "/hlmOntModel.owl"));
 		this.ontModel.write(out);
 		FileUtil.closeOutputStream(out);
 	}
-	
-	public void test() {
-		Model model = ModelFactory.createDefaultModel();
-		FileManager.get().readModel(model, "http://localhost:3030/StoneStory/data");
-		OutputStream out = null;
-		out = FileUtil.getOutputStream(PathUtil.getPath("d:/hlmInfModel.owl"));
-		model.write(out);
-		FileUtil.closeOutputStream(out);
-	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
