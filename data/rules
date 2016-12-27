@@ -1,0 +1,383 @@
+@prefix ss: <http://www.semanticweb.org/StoneStory#>
+
+#################祖孙关系###########################
+
+[
+    rule: 
+        (?a ss:父亲 ?b) (?b ss:父亲 ?c) -> (?a ss:爷爷 ?c)
+]
+[
+    rule: 
+        (?a ss:父亲 ?b) (?b ss:母亲 ?c) -> (?a ss:奶奶 ?c)
+]
+[
+    rule: 
+        (?a ss:母亲 ?b) (?b ss:父亲 ?c) -> (?a ss:姥爷 ?c)
+]
+[
+    rule: 
+        (?a ss:母亲 ?b) (?b ss:母亲 ?c) -> (?a ss:姥姥 ?c)
+]
+[
+    rule: 
+        (?a ss:爷爷 ?b) (?a ss:性别 "男"^^xsd:string)-> (?b ss:孙子 ?a)
+]
+[
+    rule: 
+        (?a ss:爷爷 ?b) (?a ss:性别 "女"^^xsd:string)-> (?b ss:孙女 ?a)
+]
+[
+    rule: 
+        (?a ss:奶奶 ?b) (?a ss:性别 "男"^^xsd:string)-> (?b ss:孙子 ?a)
+]
+[
+    rule: 
+        (?a ss:奶奶 ?b) (?a ss:性别 "女"^^xsd:string)-> (?b ss:孙女 ?a)
+]
+[
+    rule: 
+        (?a ss:姥爷 ?b) (?a ss:性别 "男"^^xsd:string)-> (?b ss:外孙 ?a)
+]
+[
+    rule: 
+        (?a ss:姥姥 ?b) (?a ss:性别 "女"^^xsd:string)-> (?b ss:外孙女 ?a)
+]
+[
+    rule: 
+        (?a ss:姥爷 ?b) (?a ss:性别 "男"^^xsd:string)-> (?b ss:外孙 ?a)
+]
+[
+    rule: 
+        (?a ss:姥姥 ?b) (?a ss:性别 "女"^^xsd:string)-> (?b ss:外孙女 ?a)
+]
+[
+    rule: 
+        (?a ss:孙子 ?b) (?a ss:性别 "女"^^xsd:string)-> (?b ss:奶奶 ?a)
+]
+[
+    rule: 
+        (?a ss:孙女 ?b) (?a ss:性别 "女"^^xsd:string)-> (?b ss:奶奶 ?a)
+]
+[
+    rule: 
+        (?a ss:孙子 ?b) (?a ss:性别 "男"^^xsd:string)-> (?b ss:爷爷 ?a)
+]
+[
+    rule: 
+        (?a ss:孙女 ?b) (?a ss:性别 "男"^^xsd:string)-> (?b ss:爷爷 ?a)
+]
+
+[
+    rule: 
+        (?a ss:外孙 ?b) (?a ss:性别 "女"^^xsd:string)-> (?b ss:姥姥 ?a)
+]
+[
+    rule: 
+        (?a ss:外孙女 ?b) (?a ss:性别 "女"^^xsd:string)-> (?b ss:姥姥 ?a)
+]
+[
+    rule: 
+        (?a ss:外孙 ?b) (?a ss:性别 "男"^^xsd:string)-> (?b ss:姥爷 ?a)
+]
+[
+    rule: 
+        (?a ss:外孙女 ?b) (?a ss:性别 "男"^^xsd:string)-> (?b ss:姥爷 ?a)
+]
+[
+    rule: 
+        (?a ss:姥姥 ?b) (?b ss:丈夫 ?c)-> (?a ss:姥爷 ?c)
+]
+[
+    rule: 
+        (?a ss:姥爷 ?b) (?b ss:妻子 ?c)-> (?a ss:姥姥 ?c)
+]
+[
+    rule: 
+        (?a ss:爷爷 ?b) (?b ss:妻子 ?c)-> (?a ss:奶奶 ?c)
+]
+[
+    rule: 
+        (?a ss:奶奶 ?b) (?b ss:丈夫 ?c)-> (?a ss:爷爷 ?c)
+]
+
+#################父母孩子关系#######################
+
+[
+    rule: 
+        (?a rdfs:subPropertyOf ss:孩子) (?b ?a ?c) -> (?b ss:孩子 ?c)
+]
+[
+    rule: 
+        (?a ss:孩子 ?b) (?a ss:性别 "女"^^xsd:string)->(?b ss:母亲 ?a)
+]
+[
+    rule: 
+        (?a ss:孩子 ?b) (?a ss:性别 "男"^^xsd:string)->(?b ss:父亲 ?a)
+]
+[
+    rule: 
+        (?a ss:孩子 ?b) (?b ss:性别 "男"^^xsd:string)->(?a ss:儿子 ?b)
+]
+[
+    rule: 
+        (?a ss:孩子 ?b) (?b ss:性别 "女"^^xsd:string)->(?a ss:女儿 ?b)
+]
+
+#################兄弟姐妹关系#######################
+
+[
+    rule: 
+        (?a ss:父亲 ?c) (?b ss:父亲 ?c) notEqual(?a ?b) (?b ss:性别 "男"^^xsd:string)-> (?a ss:亲兄弟 ?b)
+]
+[
+    rule: 
+        (?a ss:父亲 ?c) (?b ss:父亲 ?c) notEqual(?a ?b) (?b ss:性别 "女"^^xsd:string)-> (?a ss:亲姐妹 ?b)
+]
+[
+    rule: 
+        (?a ss:母亲 ?c) (?b ss:母亲 ?c) notEqual(?a ?b) (?b ss:性别 "男"^^xsd:string)-> (?a ss:亲兄弟 ?b)
+]
+[
+    rule: 
+        (?a ss:母亲 ?c) (?b ss:母亲 ?c) notEqual(?a ?b) (?b ss:性别 "女"^^xsd:string)-> (?a ss:亲姐妹 ?b)
+]
+[
+    rule: 
+        (?a ss:父亲 ?b) (?b ss:兄弟 ?c) (?d ss:父亲 ?c) notEqual(?b ?c) (?d ss:性别 "男"^^xsd:string)-> (?a ss:堂兄弟 ?d)
+]
+[
+    rule: 
+        (?a ss:父亲 ?b) (?b ss:兄弟 ?c) (?d ss:父亲 ?c) notEqual(?b ?c) (?d ss:性别 "女"^^xsd:string)-> (?a ss:堂姐妹 ?d)
+]
+[
+    rule: 
+        (?a ss:母亲 ?b) (?b ss:兄弟 ?c) (?d ss:父亲 ?c) notEqual(?b ?c) (?d ss:性别 "男"^^xsd:string)-> (?a ss:表兄弟 ?d)
+]
+[
+    rule: 
+        (?a ss:母亲 ?b) (?b ss:兄弟 ?c) (?d ss:父亲 ?c) notEqual(?b ?c) (?d ss:性别 "女"^^xsd:string)-> (?a ss:表姐妹 ?d)
+]
+[
+    rule: 
+        (?a ss:母亲 ?b) (?b ss:姐妹 ?c) (?d ss:母亲 ?c) notEqual(?b ?c) (?d ss:性别 "男"^^xsd:string)-> (?a ss:表兄弟 ?d)
+]
+[
+    rule: 
+        (?a ss:母亲 ?b) (?b ss:姐妹 ?c) (?d ss:母亲 ?c) notEqual(?b ?c) (?d ss:性别 "女"^^xsd:string)-> (?a ss:表姐妹 ?d)
+]
+
+####################舅舅外甥关系#############################
+
+[
+    rule: 
+        (?a ss:孩子 ?b) (?a ss:性别 "女"^^xsd:string) (?a ss:堂兄弟 ?c)->(?b ss:舅舅 ?c)
+]
+[
+    rule: 
+        (?a ss:孩子 ?b) (?a ss:性别 "女"^^xsd:string) (?a ss:亲兄弟 ?c)->(?b ss:舅舅 ?c)
+]
+[
+    rule: 
+        (?a ss:舅舅 ?b) (?b ss:妻子 ?c)->(?a ss:舅妈 ?c)
+]
+[
+    rule: 
+        (?a ss:舅舅 ?b) (?a ss:性别 "男"^^xsd:string)->(?b ss:外甥 ?a)
+]
+[
+    rule: 
+        (?a ss:舅舅 ?b) (?a ss:性别 "女"^^xsd:string)->(?b ss:外甥女 ?a)
+]
+[
+    rule: 
+        (?a ss:孩子 ?b) (?a ss:性别 "女"^^xsd:string) (?a ss:表兄弟 ?c)->(?b ss:表舅 ?c)
+]
+[
+    rule: 
+        (?a ss:表舅 ?b) (?b ss:妻子 ?c)->(?a ss:表舅妈 ?c)
+]
+####################姨妈外甥关系#############################
+
+[
+    rule: 
+        (?a ss:孩子 ?b) (?a ss:性别 "女"^^xsd:string) (?a ss:堂姐妹 ?c)->(?b ss:姨妈 ?c)
+]
+[
+    rule: 
+        (?a ss:孩子 ?b) (?a ss:性别 "女"^^xsd:string) (?a ss:亲姐妹 ?c)->(?b ss:姨妈 ?c)
+]
+[
+    rule: 
+        (?a ss:姨妈 ?b) (?b ss:丈夫 ?c)->(?a ss:姨父 ?c)
+]
+[
+    rule: 
+        (?a ss:姨妈 ?b) (?a ss:性别 "男"^^xsd:string)->(?b ss:外甥 ?a)
+]
+[
+    rule: 
+        (?a ss:姨妈 ?b) (?a ss:性别 "女"^^xsd:string)->(?b ss:外甥女 ?a)
+]
+[
+    rule: 
+        (?a ss:孩子 ?b) (?a ss:性别 "女"^^xsd:string) (?a ss:表姐妹 ?c)->(?b ss:表姨 ?c)
+]
+[
+    rule: 
+        (?a ss:表姨妈 ?b) (?b ss:丈夫 ?c)->(?a ss:表姨父 ?c)
+]
+
+####################叔叔侄子关系#############################
+
+[
+    rule: 
+        (?a ss:孩子 ?b) (?a ss:性别 "男"^^xsd:string) (?a ss:堂兄弟 ?c)->(?b ss:叔叔 ?c)
+]
+[
+    rule: 
+        (?a ss:孩子 ?b) (?a ss:性别 "男"^^xsd:string) (?a ss:亲兄弟 ?c)->(?b ss:叔叔 ?c)
+]
+[
+    rule: 
+        (?a ss:叔叔 ?b) (?b ss:妻子 ?c)->(?a ss:婶婶 ?c)
+]
+[
+    rule: 
+        (?a ss:叔叔 ?b) (?a ss:性别 "男"^^xsd:string)->(?b ss:侄子 ?a)
+]
+[
+    rule: 
+        (?a ss:叔叔 ?b) (?a ss:性别 "女"^^xsd:string)->(?b ss:侄女 ?a)
+]
+[
+    rule: 
+        (?a ss:孩子 ?b) (?a ss:性别 "男"^^xsd:string) (?a ss:表兄弟 ?c)->(?b ss:表叔 ?c)
+]
+[
+    rule: 
+        (?a ss:表叔 ?b) (?b ss:妻子 ?c)->(?a ss:表婶 ?c)
+]
+
+####################姑姑侄子关系#############################
+
+[
+    rule: 
+        (?a ss:孩子 ?b) (?a ss:性别 "男"^^xsd:string) (?a ss:堂姐妹 ?c)->(?b ss:姑姑 ?c)
+]
+[
+    rule: 
+        (?a ss:孩子 ?b) (?a ss:性别 "男"^^xsd:string) (?a ss:亲姐妹 ?c)->(?b ss:姑姑 ?c)
+]
+[
+    rule: 
+        (?a ss:姑姑 ?b) (?b ss:丈夫 ?c)->(?a ss:姑父 ?c)
+]
+[
+    rule: 
+        (?a ss:姑姑 ?b) (?a ss:性别 "男"^^xsd:string)->(?b ss:侄子 ?a)
+]
+[
+    rule: 
+        (?a ss:姑姑 ?b) (?a ss:性别 "女"^^xsd:string)->(?b ss:侄女 ?a)
+]
+[
+    rule: 
+        (?a ss:孩子 ?b) (?a ss:性别 "男"^^xsd:string) (?a ss:表姐妹 ?c)->(?b ss:表姑 ?c)
+]
+[
+    rule: 
+        (?a ss:表姑 ?b) (?b ss:丈夫 ?c)->(?a ss:表姑父 ?c)
+]
+
+####################相互关系#################################
+[
+    rule:
+        (?a ss:妾室 ?b) -> (?b ss:丈夫 ?a)
+]
+[
+    rule:
+        (?a ss:妻子 ?b) -> (?b ss:丈夫 ?a)
+]
+[
+    rule: 
+        (?a ss:妹妹 ?b) (?a ss:性别 "男"^^xsd:string)->(?b ss:哥哥 ?a)
+]
+[
+    rule: 
+        (?a ss:妹妹 ?b) (?a ss:性别 "女"^^xsd:string)->(?b ss:姐姐 ?a)
+]
+[
+    rule: 
+        (?a rdfs:subPropertyOf ss:兄弟) (?b ?a ?c) (?b ss:性别 "男"^^xsd:string) notEqual(?b ?c) -> (?b ss:兄弟 ?c) (?c ss:兄弟 ?b)
+]
+[
+    rule: 
+        (?a rdfs:subPropertyOf ss:兄弟) (?b ?a ?c) (?b ss:性别 "女"^^xsd:string) notEqual(?b ?c) -> (?b ss:兄弟 ?c) (?c ss:姐妹 ?b)
+]
+[
+    rule: 
+        (?a rdfs:subPropertyOf ss:姐妹) (?b ?a ?c) (?b ss:性别 "男"^^xsd:string) notEqual(?b ?c) -> (?b ss:姐妹 ?c) (?c ss:兄弟 ?b)
+]
+[
+    rule: 
+        (?a rdfs:subPropertyOf ss:姐妹) (?b ?a ?c) (?b ss:性别 "女"^^xsd:string) notEqual(?b ?c) -> (?b ss:姐妹 ?c) (?c ss:姐妹 ?b)
+]
+[
+    rule: 
+        (?a rdfs:subPropertyOf ss:亲兄弟) (?b ?a ?c) (?b ss:性别 "男"^^xsd:string) notEqual(?b ?c) -> (?b ss:亲兄弟 ?c) (?c ss:亲兄弟 ?b)
+]
+[
+    rule: 
+        (?a rdfs:subPropertyOf ss:亲兄弟) (?b ?a ?c) (?b ss:性别 "女"^^xsd:string) notEqual(?b ?c) -> (?b ss:亲兄弟 ?c) (?c ss:亲姐妹 ?b)
+]
+[
+    rule: 
+        (?a rdfs:subPropertyOf ss:亲姐妹) (?b ?a ?c) (?b ss:性别 "男"^^xsd:string) notEqual(?b ?c) -> (?b ss:亲姐妹 ?c) (?c ss:亲兄弟 ?b)
+]
+[
+    rule: 
+        (?a rdfs:subPropertyOf ss:亲姐妹) (?b ?a ?c) (?b ss:性别 "女"^^xsd:string) notEqual(?b ?c) -> (?b ss:亲姐妹 ?c) (?c ss:亲姐妹 ?b)
+]
+
+##########################其他关系####################################
+
+[
+    rule: 
+        (?a ss:居所 ?b) (?a ss:侍婢 ?c)->(?c ss:居所 ?b)
+]
+[
+    rule: 
+        (?a rdfs:subClassOf ?b) (?c rdf:type ?a)->(?c rdf:type ?b)
+]
+[
+    rule: 
+        (?a rdf:type ss:贾氏男儿)->(?a ss:性别 "男"^^xsd:string)
+]
+[
+    rule: 
+        (?a rdf:type ss:贾氏女儿)->(?a ss:性别 "女"^^xsd:string)
+]
+[
+    rule: 
+        (?a ss:父亲 ss:贾氏女儿)->(?a ss:性别 "女"^^xsd:string)
+]
+[
+    rule: 
+        (?a rdf:type ss:金陵十二钗)->(?a ss:性别 "女"^^xsd:string)
+]
+[
+    rule: 
+        (?a rdfs:subPropertyOf ss:前辈) (?b ?a ?c) -> (?b ss:前辈 ?c)
+]
+[
+    rule: 
+        (?a rdfs:subPropertyOf ss:后代) (?b ?a ?c) -> (?b ss:后代 ?c)
+]
+[
+    rule: 
+        (?a rdf:type ?c) (?b rdf:type ?d) (?c ss:下一代 ?d) -> (?a ss:下一代 ?b)
+]
+[
+    rule: 
+        (?a ss:下一代 ?b) -> (?b ss:上一代 ?a)
+]
