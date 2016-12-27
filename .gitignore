@@ -1,1 +1,4 @@
 /bin/
+*.*~
+*.swp
+/data/catalog-v001.xml
